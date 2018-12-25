@@ -7,6 +7,16 @@
 {% endblock %}
 
 {% block content %}
+
+<!-- Somewhere for the form to live -->
+<h1> Pick a time range to show </h1>
+
+<form action="", method="post">time
+    {{ form.hidden_tag() }}
+
+    {{ form.the_time }}
+</form>
+
 {{ plot_div|safe }}
 {{ plot_script|safe }}
 {% endblock %}

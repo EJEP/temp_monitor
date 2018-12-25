@@ -10,6 +10,7 @@ from flask import Flask, render_template
 from jinja2 import Template
 
 import config
+from TimeForm import TimeForm
 
 app = Flask(__name__)
 
@@ -104,12 +105,14 @@ def plot_data_2():
 
     return plot_script, plot_div
 
-@app.route('/')
+@app.route('/the_plot', methods=['GET', 'POST'])
 def hello():
+
+    time_chooser = TimeForm()
 
     plot_script, plot_div = plot_data_2()
     # CDN.render() has all of the information to get the javascript libraries
-    # for Bokeh to work.
+    # for Bokeh to work, loaded from a cdn somewhere.
     return render_template('temp_graph.html', plot_div=plot_div,
                            plot_script=plot_script, resources=CDN.render())
     #return page.render(resources=CDN.render())
