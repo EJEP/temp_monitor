@@ -6,28 +6,28 @@ from bokeh.plotting import figure
 from bokeh.embed import json_item
 from bokeh.resources import CDN
 import json
-from flask import Flask
+from flask import Flask, render_template
 from jinja2 import Template
 
-#import ../config.py
+import config
 
 app = Flask(__name__)
 
-# page = Template("""
-# <!DOCTYPE html>
-# <html lang="en">
-# <head>
-#   {{ resources }}
-# </head>
-# <body>
-#   <div id="myplot"></div>
-#   <script>
-#   fetch('/plot')
-#     .then(function(response) { return response.json(); })
-#     .then(function(item) { Bokeh.embed.embed_item(item); })
-#   </script>
-# </body>
-# """)
+page = Template("""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{ resources }}
+</head>
+<body>
+  <div id="myplot"></div>
+  <script>
+  fetch('/plot')
+    .then(function(response) { return response.json(); })
+    .then(function(item) { Bokeh.embed.embed_item(item); })
+  </script>
+</body>
+""")
 
 
 def get_data(table, interval):
@@ -72,12 +72,16 @@ def plot_data():
 
     # Jsonify the plot to put in html
     plot_text = json.dumps(json_item(p, 'myplot'))
+    #plot_script, plot_div = components(p)
 
+    #return plot_script, plot_div
     return plot_text
 
 @app.route('/')
 def hello():
 
+    #plot_script, plot_div = plot_data()
     # CDN.render() has all of the information to get the javascript libraries
     # for Bokeh to work.
-    return render_template(resources=CDN.render())
+    return render_template('test_template.html', resources=CDN.render())
+    #return page.render(resources=CDN.render())
