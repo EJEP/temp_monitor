@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Grapherooni{% endblock %}</h1>
+
+{{ resources|safe }}
+{% endblock %}
+
+{% block content %}
+{{ plot_div|safe }}
+{{ plot_script|safe }}
+{% endblock %}
