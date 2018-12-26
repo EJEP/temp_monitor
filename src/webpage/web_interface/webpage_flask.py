@@ -14,6 +14,9 @@ from TimeForm import TimeForm
 
 app = Flask(__name__)
 
+# Set a secret key. For now this will not be secret or strong!
+app.secret_key = b'do_not_use'
+
 page = Template("""
 <!DOCTYPE html>
 <html lang="en">
@@ -114,5 +117,5 @@ def hello():
     # CDN.render() has all of the information to get the javascript libraries
     # for Bokeh to work, loaded from a cdn somewhere.
     return render_template('temp_graph.html', plot_div=plot_div,
-                           plot_script=plot_script, resources=CDN.render())
-    #return page.render(resources=CDN.render())
+                           plot_script=plot_script, resources=CDN.render(),
+                           form=time_chooser)
