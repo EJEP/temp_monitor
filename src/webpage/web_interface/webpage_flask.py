@@ -65,7 +65,7 @@ def plot_data():
     # get metoffice data
     met_records=get_data('metoffice_temps', option)
 
-    p = figure(plot_width=800, plot_height=500, x_axis_type="datetime")
+    p = figure(plot_width=1000, plot_height=500, x_axis_type="datetime")
 
     p.line([s[0] for s in sensor_records], [s[1] for s in sensor_records], color='blue',
            legend='sensor')
