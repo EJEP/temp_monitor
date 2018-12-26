@@ -81,18 +81,17 @@ def plot_data():
     #return plot_script, plot_div
     return plot_text
 
-def plot_data_2():
+def plot_data_2(time_range):
     """Plot the data in Bokeh"""
 
-    option = None
     # get sensor data from the database
-    sensor_records=get_data('sensor_temps', option)
+    sensor_records=get_data('sensor_temps', time_range)
 
     # get weather data
-    owm_records=get_data('owm_temps', option)
+    owm_records=get_data('owm_temps', time_range)
 
     # get metoffice data
-    met_records=get_data('metoffice_temps', option)
+    met_records=get_data('metoffice_temps', time_range)
 
     p = figure(plot_width=800, plot_height=500, x_axis_type="datetime")
 
@@ -113,7 +112,15 @@ def hello():
 
     time_chooser = TimeForm()
 
-    plot_script, plot_div = plot_data_2()
+    interval = None
+    # If the form was used, use the data from it
+    if time_chooser.validate_on_submit():
+        if time_chooser.the_time.data != 'all':
+            interval = time_chooser.the_time.data
+    else:
+        interval = 72
+
+    plot_script, plot_div = plot_data_2(interval)
     # CDN.render() has all of the information to get the javascript libraries
     # for Bokeh to work, loaded from a cdn somewhere.
     return render_template('temp_graph.html', plot_div=plot_div,
