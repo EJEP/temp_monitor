@@ -17,7 +17,7 @@ API keys are required for the [OpenWeatherMap API](https://openweathermap.org/ap
 
 ### Setup ###
 
-Database configuration. Needs tables for the sensor and the two weather services with fields/columns for the time and temperature.
+Database configuration. Needs tables for the sensor and the two weather services with fields/columns for the time and temperature. The name of the database is set in `config.py`. The table names are assumed.
 
 ### Configuration ###
 
