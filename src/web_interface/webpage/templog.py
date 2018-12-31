@@ -82,3 +82,7 @@ def show_plot():
     return render_template('temp_graph.html', plot_div=plot_div,
                            plot_script=plot_script, resources=CDN.render(),
                            form=time_chooser)
+
+@app.route('/')
+def hello():
+    return "Hello"
