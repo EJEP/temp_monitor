@@ -10,13 +10,13 @@ from flask import Flask, render_template, g
 
 from webpage.db import get_db
 
-import config
+#import config
 from TimeForm import TimeForm
 
-app = Flask(__name__)
+#app = Flask(__name__)
 
 # Set a secret key. For now this will not be secret or strong!
-app.secret_key = b'do_not_use'
+#app.secret_key = b'do_not_use'
 
 def get_data(table, interval):
     """Return all records from the database after the interval"""
