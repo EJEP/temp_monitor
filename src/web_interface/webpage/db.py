@@ -12,7 +12,7 @@ def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
+            detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES
         )
         g.db.row_factory = sqlite3.Row
 
@@ -24,3 +24,10 @@ def close_db(e=None):
 
     if db is not None:
         db.close()
+
+# To Do: Add init_db commands. This requires a schema file
+
+
+def init_app(app):
+    app.teardown_appcontext(close_db)
+    #app.cli.add_command(init_db_command)
