@@ -4,4 +4,5 @@ __pycache__/
 instance/
 venv/
 
+*.egg-info/
 *.db
