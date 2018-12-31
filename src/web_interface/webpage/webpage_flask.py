@@ -6,7 +6,9 @@ from bokeh.plotting import figure
 from bokeh.embed import json_item, components
 from bokeh.resources import CDN
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, g
+
+from webpage.db import get_db
 
 import config
 from TimeForm import TimeForm
@@ -19,8 +21,10 @@ app.secret_key = b'do_not_use'
 def get_data(table, interval):
     """Return all records from the database after the interval"""
 
-    conn=sqlite3.connect(config.DBNAME, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
-    curs=conn.cursor()
+    #conn=sqlite3.connect(config.DBNAME, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+    # curs=conn.cursor()
+
+    curs = get_db()
 
     if interval == None:
         curs.execute("SELECT * FROM " + table)
