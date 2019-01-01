@@ -26,4 +26,11 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
+    from . import templog
+    app.register_blueprint(templog.bp)
+
+    @app.route('/hello')
+    def hello():
+        return "Hello"
+
     return app

@@ -6,13 +6,15 @@ from bokeh.plotting import figure
 from bokeh.embed import json_item, components
 from bokeh.resources import CDN
 import json
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, Blueprint
 
 from webpage.db import get_db
 
 #import config
-from TimeForm import TimeForm
+#from TimeForm import TimeForm
+from . import TimeForm
 
+bp = Blueprint('plots', __name__)
 #app = Flask(__name__)
 
 # Set a secret key. For now this will not be secret or strong!
@@ -24,7 +26,8 @@ def get_data(table, interval):
     #conn=sqlite3.connect(config.DBNAME, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
     # curs=conn.cursor()
 
-    curs = get_db()
+    conn = get_db()
+    curs = conn.cursor()
 
     if interval == None:
         curs.execute("SELECT * FROM " + table)
@@ -33,7 +36,7 @@ def get_data(table, interval):
 
     rows=curs.fetchall()
 
-    conn.close()
+    curs.close()
 
     return rows
 
@@ -63,10 +66,10 @@ def make_plot(time_range):
 
     return plot_script, plot_div
 
-@app.route('/the_plot', methods=['GET', 'POST'])
+@bp.route('/the_plot', methods=['GET', 'POST'])
 def show_plot():
 
-    time_chooser = TimeForm()
+    time_chooser = TimeForm.TimeForm()
 
     interval = None
     # If the form was used, use the data from it
@@ -83,6 +86,6 @@ def show_plot():
                            plot_script=plot_script, resources=CDN.render(),
                            form=time_chooser)
 
-@app.route('/')
+@bp.route('/')
 def hello():
-    return "Hello"
+    return "help"
