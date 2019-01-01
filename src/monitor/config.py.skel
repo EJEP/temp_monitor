@@ -1,0 +1,14 @@
+"""Skeleton file for configuration. The variables in this file are
+user-dependent."""
+
+# API keys for OpenWeatherMap and Datapoint. Both should be strings
+OWM_API_KEY = 'Your key here'
+DATAPOINT_API_KEY = 'Your key here'
+
+# The database location
+DBNAME = '/path/to/database.db'
+
+# The latitude / longitude decimal coordinates of the location to get weather
+# data for
+COORDS = (51.4778, -0.0014)
+
