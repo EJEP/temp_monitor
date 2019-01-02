@@ -4,6 +4,8 @@ Monitor temperature from a sensor and display on a webpage.
 
 Currently both the monitoring script and the webpage are in the same repository. This may change.
 
+Inspired by [https://github.com/Pyplate/rpi_temp_logger].
+
 ## Monitor Script ##
 
 This script reads the temperature from a DS18B20 temperature sensor and two weather services (OpenWeatherMap and the Met Office) and stores all the information in a database.
