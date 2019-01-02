@@ -1,6 +1,8 @@
 # Monitor temperature #
 
-Monitor temperature from a sensor and display on a webpage
+Monitor temperature from a sensor and display on a webpage.
+
+Currently both the monitoring script and the webpage are in the same repository. This may change.
 
 ## Monitor Script ##
 
@@ -17,7 +19,7 @@ API keys are required for the [OpenWeatherMap API](https://openweathermap.org/ap
 
 ### Setup ###
 
-Database configuration. Needs tables for the sensor and the two weather services with fields/columns for the time and temperature. The name of the database is set in `config.py`. The table names are assumed.
+The `init-db` command in flask initialises a database in the `instance` directory of the webpage installation. See `schemal.sql` for the creation of the database.
 
 ### Configuration ###
 
@@ -43,6 +45,8 @@ The web page shows the temperature on a graph using [Bokeh](https://bokeh.pydata
 
 ### Configuration ###
 
-To come...
+To do...
 
-The web page is written
+### Installation ###
+
+The package is distributed as a package installable with pip.
