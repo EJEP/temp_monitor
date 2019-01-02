@@ -4,7 +4,7 @@ Monitor temperature from a sensor and display on a webpage.
 
 Currently both the monitoring script and the webpage are in the same repository. This may change.
 
-Inspired by [https://github.com/Pyplate/rpi_temp_logger].
+Inspired by https://github.com/Pyplate/rpi_temp_logger.
 
 ## Monitor Script ##
 
