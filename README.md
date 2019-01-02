@@ -36,6 +36,8 @@ The variables in `config.py` are:
 
 The web page shows the temperature on a graph using [Bokeh](https://bokeh.pydata.org/en/latest/). [Flask](http://flask.pocoo.org/) is used to display the page.
 
+Currently I have not written the code to integrate the code with a different server.
+
 ### Requirements ###
 
 + [Bokeh](https://bokeh.pydata.org/en/latest/)
@@ -45,8 +47,8 @@ The web page shows the temperature on a graph using [Bokeh](https://bokeh.pydata
 
 ### Configuration ###
 
-To do...
+The `secret_key` configuration variable for flask needs to be set in a `config.py` file in the flask instance directory.
 
 ### Installation ###
 
-The package is distributed as a package installable with pip.
+The package is distributed as a package installable with pip. The integration with a server is dependent on the server.
