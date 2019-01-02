@@ -5,8 +5,12 @@ from flask import Flask
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+
+    # Default configuration
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        # I think it is safe to leave this uncommented as the SECRET_KEY value
+        # should be updated by the config file.
+        #SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'templog.sqlite'),
     )
 
