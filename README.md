@@ -54,3 +54,11 @@ The `secret_key` configuration variable for flask needs to be set in a `config.p
 ### Installation ###
 
 The package is distributed as a package installable with pip. The integration with a server is dependent on the server.
+
+This was a pain. I will re-write this later.
+
++ Using `mod_wsgi` with virtual environments is a lot easier if the environment is created using `virtualenvironment` rather than `venv`.
++ As described [here](http://flask.pocoo.org/docs/1.0/config/) the instance directory is in `$PREFIX/var/`
++ `WSGIScriptAlias` needs to be `WSGIScriptAlias / /whatever/`. The first `/` is required.
++ Remember to read the Flask [docs](http://flask.pocoo.org/docs/1.0/deploying/mod_wsgi/) on using virtual environments with a `.wsgi` file.
++ The example `.wsgi` file `from yourapplication import app as application` doesn't seem to work if there is a factory function in an `__init__.py`.
