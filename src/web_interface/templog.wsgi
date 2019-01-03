@@ -1,19 +1,8 @@
-python_home = '/home/harri/temp_monitor/src/web_interface/venv2'
+python_home = '/home/harri/temp_monitor/src/web_interface/venv3'
 
-import sys
-import site
+activate_this = python_home + '/bin/activate_this.py'
+exec(open(activate_this).read(), {'__file__': activate_this})
 
-# Calculate path to site-packages directory.
+from webpage import create_app
 
-python_version = '.'.join(map(str, sys.version_info[:2]))
-site_packages = python_home + '/lib/python%s/site-packages' % python_version
-site.addsitedir(site_packages)
-
-# Remember original sys.path.
-
-prev_sys_path = list(sys.path)
-
-# Add the site-packages directory.
-
-site.addsitedir(site_packages)
-
+application = create_app()
