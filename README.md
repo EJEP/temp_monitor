@@ -42,6 +42,8 @@ Currently I have not written the code to integrate the code with a different ser
 
 ### Requirements ###
 
+If the project is installed, the dependencies are set in `setup.py`.
+
 + [Bokeh](https://bokeh.pydata.org/en/latest/)
 + [Flask](http://flask.pocoo.org/)
 + [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/)
@@ -53,14 +55,41 @@ The `secret_key` configuration variable for flask needs to be set in a `config.p
 
 ### Installation ###
 
-The package is distributed as a package installable with pip. The integration with a server is dependent on the server. Different operating systems also may put server configuration files in different places.
+The package is distributed as a package installable with pip. When the package us installed, the instance directory is `$INSTALL_PREFIX/var/instance`. This is described in the flask [docs](http://flask.pocoo.org/docs/1.0/config/).
 
-This was a pain. I will re-write this later.
+The integration with a server is dependent on the server. Different operating systems may also put server configuration files in different places.
 
-+ Make sure to install a version of `mod_wsgi` that is compatible with python 3.
-+ Using `mod_wsgi` with virtual environments is a lot easier if the environment is created using `virtualenvironment` rather than `venv`.
-+ As described [here](http://flask.pocoo.org/docs/1.0/config/) the instance directory is in `$PREFIX/var/`
-+ `WSGIScriptAlias` seems to need to be `WSGIScriptAlias / /whatever/` with the flask setup I've used. This is not the case in the `mod_wsgi` example [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html).
-+ Remember to read the Flask [docs](http://flask.pocoo.org/docs/1.0/deploying/mod_wsgi/) on using virtual environments with a `.wsgi` file.
-+ The example `.wsgi` file `from yourapplication import app as application` doesn't seem to work if there is a factory function in an `__init__.py`. That function needs to be imported.
-+ The `.wsgi` file needs the path to the `activate_this.py` file for the virtual environment to be set. I don't know if this can be not hardcoded.
+#### Apache with mod_wsgi ####
+
+The python code is written in python 3. `mod_wsgi` cannot run across python versions, so ensure that the version of mod_wsgi which supports python 3 is installed. The `mod_wsgi` [documentation](https://modwsgi.readthedocs.io/en/develop/) contains instructions on how to install and set up `mod_wsgi`. As noted in the [docs](https://modwsgi.readthedocs.io/en/develop/user-guides/virtual-environments.html) it is easier to use `mod_wsgi` with virtual environments if the environment is created using `virtualenvironment` rather than `venv`. This is because `virtualenvironment` includes an `activate_this.py` file. The flask [documentation](http://flask.pocoo.org/docs/1.0/deploying/mod_wsgi/#working-with-virtual-environments) for using virtual environments with apache and `mod_wsgi` suggests how to use this in a `.wsgi` file. As far as I know, the path to the `activate_this.py` file must be hard coded. Note that the suggested form of a `.wsgi` file in the [example](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html) does not seem to work with this code. The `templog.wsgi` file is as follows:
+
+```
+python_home = '/path/to/venv'
+
+activate_this = python_home + '/bin/activate_this.py'
+exec(open(activate_this).read(), {'__file__': activate_this})
+
+from webpage import create_app
+application = create_app()
+```
+
+The `mod_wsgi` documentation describes how to set up a wsgi script with apache. The configuration I have used is below:
+```
+	WSGIDaemonProcess templog threads=2 python-home=/path/to/empty/venv
+	WSGIScriptAlias / /path/to/wsgi_dir/templog.wsgi process-group=templog
+	WSGIProcessGroup templog
+
+	<Directory /path/to/wsgi_dir>
+	    <IfVersion < 2.4>
+	        Order allow,deny
+	        Allow from all
+        </IfVersion>
+	    <IfVersion >= 2.4>
+	        Require all granted
+        </IfVersion>
+	</Directory>
+```
+
+This configuration is in a `.conf` file, in a `VirtualHost` definition in apache installed on raspbian.
+
+Note that for this code, `WSGIScriptAlias` seems to need to be `WSGIScriptAlias / /whatever/`. This is not the case in the `mod_wsgi` example [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html).
