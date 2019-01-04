@@ -47,11 +47,11 @@ def make_plot(time_range):
     p = figure(plot_width=800, plot_height=500, x_axis_type="datetime")
 
     p.line([s[0] for s in sensor_records], [s[1] for s in sensor_records],
-           color='blue', legend='sensor')
+           color='#006ba4', legend='sensor')
     p.line([o[0] for o in owm_records], [o[1] for o in owm_records],
-           color='red', legend='OWM')
+           color='#ff800e', legend='OWM')
     p.line([m[0] for m in met_records], [m[1] for m in met_records],
-           color='black', legend='MetOffice')
+           color='#ababab', legend='MetOffice')
 
     # Jsonify the plot to put in html
     plot_script, plot_div = components(p)
