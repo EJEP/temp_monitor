@@ -75,21 +75,21 @@ application = create_app()
 
 The `mod_wsgi` documentation describes how to set up a wsgi script with apache. The configuration I have used is below:
 ```
-	WSGIDaemonProcess templog threads=2 python-home=/path/to/empty/venv
-	WSGIScriptAlias / /path/to/wsgi_dir/templog.wsgi process-group=templog
-	WSGIProcessGroup templog
+WSGIDaemonProcess templog threads=2 python-home=/path/to/empty/venv
+WSGIScriptAlias / /path/to/wsgi_dir/templog.wsgi process-group=templog
+WSGIProcessGroup templog
 
-	<Directory /path/to/wsgi_dir>
-	    <IfVersion < 2.4>
-	        Order allow,deny
-	        Allow from all
-        </IfVersion>
-	    <IfVersion >= 2.4>
-	        Require all granted
-        </IfVersion>
-	</Directory>
+<Directory /path/to/wsgi_dir>
+    <IfVersion < 2.4>
+        Order allow,deny
+        Allow from all
+    </IfVersion>
+    <IfVersion >= 2.4>
+        Require all granted
+    </IfVersion>
+</Directory>
 ```
 
 This configuration is in a `.conf` file, in a `VirtualHost` definition in apache installed on raspbian.
 
-Note that for this code, `WSGIScriptAlias` seems to need to be `WSGIScriptAlias / /whatever/`. This is not the case in the `mod_wsgi` example [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html).
+Note that for this code, `WSGIScriptAlias` seems to need to be `WSGIScriptAlias / /path/to/wsgi_dir/templog.wsgi`. This is not the case in the `mod_wsgi` example [here](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html).
