@@ -1,4 +1,4 @@
-python_home = '/home/harri/temp_monitor/src/web_interface/venv3'
+python_home = '/path/to/venv'
 
 activate_this = python_home + '/bin/activate_this.py'
 exec(open(activate_this).read(), {'__file__': activate_this})
