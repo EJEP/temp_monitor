@@ -6,7 +6,7 @@ import datetime
 from bokeh.plotting import figure
 from bokeh.embed import json_item, components
 from bokeh.resources import CDN
-from bokeh.models import HoverTool
+from bokeh.models import HoverTool, Legend
 import json
 from flask import Flask, render_template, g, Blueprint
 
@@ -45,7 +45,8 @@ def make_plot(time_range):
     # get metoffice data
     met_records=get_data('metoffice_temps', time_range)
 
-    p = figure(plot_width=800, plot_height=500, x_axis_type="datetime")
+    p = figure(plot_width=800, plot_height=500, x_axis_type="datetime",
+               toolbar_location="above")
 
     p.add_tools(HoverTool(
         tooltips = [
@@ -58,12 +59,26 @@ def make_plot(time_range):
 
        ))
 
-    p.line([s[0] for s in sensor_records], [s[1] for s in sensor_records],
-           color='#006ba4', legend='sensor', line_width=2)
-    p.line([o[0] for o in owm_records], [o[1] for o in owm_records],
-           color='#ff800e', legend='OWM', line_width=2)
-    p.line([m[0] for m in met_records], [m[1] for m in met_records],
-           color='#ababab', legend='MetOffice', line_width=2)
+    sensl = p.line([s[0] for s in sensor_records],
+                   [s[1] for s in sensor_records],
+                   color='#006ba4', line_width=2)
+
+    owml = p.line([o[0] for o in owm_records],
+                  [o[1] for o in owm_records],
+                  color='#ff800e', line_width=2)
+
+    metl = p.line([m[0] for m in met_records],
+                  [m[1] for m in met_records],
+                  color='#ababab', line_width=2)
+
+    # The legend will be outside the plot, and so must be defined directly
+    leg = Legend(items=[
+        ("Sensor", [sensl]),
+        ("OWM", [owml]),
+        ("MetOffice", [metl]),
+    ], location=(5, 360))
+
+    p.add_layout(leg, 'right')
 
     # Jsonify the plot to put in html
     plot_script, plot_div = components(p)
