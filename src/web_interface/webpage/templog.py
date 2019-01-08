@@ -6,6 +6,7 @@ import datetime
 from bokeh.plotting import figure
 from bokeh.embed import json_item, components
 from bokeh.resources import CDN
+from bokeh.models import HoverTool
 import json
 from flask import Flask, render_template, g, Blueprint
 
@@ -46,12 +47,23 @@ def make_plot(time_range):
 
     p = figure(plot_width=800, plot_height=500, x_axis_type="datetime")
 
+    p.add_tools(HoverTool(
+        tooltips = [
+            ('date', '@x{%Y-%m-%d %H:%M}'),
+            ('temp', '$y'),
+        ],
+        formatters = {
+            'x': 'datetime',
+        },
+
+       ))
+
     p.line([s[0] for s in sensor_records], [s[1] for s in sensor_records],
            color='#006ba4', legend='sensor')
     p.line([o[0] for o in owm_records], [o[1] for o in owm_records],
            color='#ff800e', legend='OWM')
     p.line([m[0] for m in met_records], [m[1] for m in met_records],
-           color='#ababab', legend='MetOffice')
+           color=' ff#ababab', legend='MetOffice')
 
     # Jsonify the plot to put in html
     plot_script, plot_div = components(p)
