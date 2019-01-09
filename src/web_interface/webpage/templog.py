@@ -8,7 +8,7 @@ from bokeh.embed import json_item, components
 from bokeh.resources import CDN
 from bokeh.models import HoverTool, Legend
 import json
-from flask import Flask, render_template, g, Blueprint, current_app
+from flask import Flask, render_template, g, Blueprint, current_app, request
 
 from webpage.db import get_db
 
@@ -22,7 +22,7 @@ def get_data(table, interval):
     conn = get_db()
     curs = conn.cursor()
 
-    if interval == None:
+    if interval == 'all':
         curs.execute("SELECT * FROM " + table)
     else:
         curs.execute("SELECT * FROM " + table + " WHERE time>datetime('now','-%s hours')" % interval)
@@ -88,10 +88,11 @@ def make_plot(time_range):
 @bp.route('/the_plot', methods=['GET', 'POST'])
 def show_plot():
 
-    time_chooser = TimeForm.TimeForm()
+    time_chooser = TimeForm.TimeForm(request.form)
 
-    interval = None
-    # If the form was used, use the data from it
+    # By default show the last 72 hours of data
+    interval = '72'
+
     if time_chooser.validate_on_submit():
         #if time_chooser.the_time.data != 'all':
         interval = time_chooser.the_time.data
