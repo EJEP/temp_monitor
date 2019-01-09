@@ -8,7 +8,7 @@ from bokeh.embed import json_item, components
 from bokeh.resources import CDN
 from bokeh.models import HoverTool, Legend
 import json
-from flask import Flask, render_template, g, Blueprint
+from flask import Flask, render_template, g, Blueprint, current_app
 
 from webpage.db import get_db
 
@@ -93,10 +93,10 @@ def show_plot():
     interval = None
     # If the form was used, use the data from it
     if time_chooser.validate_on_submit():
-        if time_chooser.the_time.data != 'all':
-            interval = time_chooser.the_time.data
-    else:
-        interval = 72
+        #if time_chooser.the_time.data != 'all':
+        interval = time_chooser.the_time.data
+        current_app.logger.info('interval is %s', interval)
+    current_app.logger.info('interval is %s', interval)
 
     plot_script, plot_div = make_plot(interval)
     # CDN.render() has all of the information to get the javascript libraries
