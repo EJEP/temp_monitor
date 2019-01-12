@@ -33,6 +33,10 @@ The variables in `config.py` are:
 + `DATAPOINT_API_KEY`: The API key for datapoint.
 + `COORDS`: The coordinates to use for the weather reporting, in decimal latitude/longitude.
 
+### Hardware ###
+
+See, for instance, this [tutorial](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing?view=all) from Adafruit for information on wiring up a DS18B20 sensor with a Raspberry Pi.
+
 
 ## Web Page ## 
 
