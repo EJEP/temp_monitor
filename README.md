@@ -21,7 +21,7 @@ API keys are required for the [OpenWeatherMap API](https://openweathermap.org/ap
 
 ### Setup ###
 
-The `init-db` command in flask initialises a database in the `instance` directory of the webpage installation. See `schemal.sql` for the creation of the database.
+The `init-db` command in flask initialises a database in the `instance` directory of the webpage installation. See `schemal.sql` for the creation of the database. The web server will need to be able to read this file.
 
 ### Configuration ###
 
@@ -38,7 +38,7 @@ The variables in `config.py` are:
 
 The web page shows the temperature on a graph using [Bokeh](https://bokeh.pydata.org/en/latest/). [Flask](http://flask.pocoo.org/) is used to display the page.
 
-Currently I have not written the code to integrate the code with a different server.
+Currently I have not written the code to integrate the code with servers other than apache, but flask is capable of integrating with others. See the flask deployment [docs](http://flask.pocoo.org/docs/1.0/deploying/) for more information.
 
 ### Requirements ###
 
