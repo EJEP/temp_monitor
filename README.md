@@ -14,7 +14,7 @@ This script reads the temperature from a DS18B20 temperature sensor and two weat
 
 + SQLite
 + [pyowm](https://github.com/csparpa/pyowm)
-+ [metoffer](https://github.com/sludgedesk/metoffer)
++ [datapoint](https://github.com/jacobtomlinson/datapoint-python)
 + [w1thermsensor](https://github.com/timofurrer/w1thermsensor)
 
 API keys are required for the [OpenWeatherMap API](https://openweathermap.org/api) and the MetOffice [Datapoint API](https://www.metoffice.gov.uk/datapoint).
