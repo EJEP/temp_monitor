@@ -11,7 +11,7 @@ import sys
 import serial
 from w1thermsensor import W1ThermSensor
 import pyowm
-import metoffer
+#import metoffer
 import datapoint
 
 import config
@@ -86,11 +86,18 @@ def get_metoffice():
     """Return the temperature from the metoffice"""
 
     # Get temperature from met office
-    M = metoffer.MetOffer(config.DATAPOINT_API_KEY)
-    raw_data = M.nearest_loc_obs(config.COORDS)
-    metoffice_obs = metoffer.parse_val(raw_data)
+    #M = metoffer.MetOffer(config.DATAPOINT_API_KEY)
+    #raw_data = M.nearest_loc_obs(config.COORDS)
+    #metoffice_obs = metoffer.parse_val(raw_data)
 
-    return metoffice_obs.data[-1]['Temperature'][0]
+    #return metoffice_obs.data[-1]['Temperature'][0]
+
+    conn = datapoint.connection(api_key=config.DATAPOINT_API_KEY)
+    site = conn.get_nearest_site(*config.COORDS)
+
+    current_timestep = forecast.now()
+
+    return current_timestep.temperature.value
 
 def main():
 
