@@ -86,17 +86,9 @@ def get_metoffice():
     """Return the temperature from the metoffice"""
 
     # Get temperature from met office
-    #M = metoffer.MetOffer(config.DATAPOINT_API_KEY)
-    #raw_data = M.nearest_loc_obs(config.COORDS)
-    #metoffice_obs = metoffer.parse_val(raw_data)
-
-    #return metoffice_obs.data[-1]['Temperature'][0]
-
     conn = datapoint.connection(api_key=config.DATAPOINT_API_KEY)
     site = conn.get_nearest_site(*config.COORDS)
-
     forecast = conn.get_forecast_for_site(site.id, "3hourly")
-
     current_timestep = forecast.now()
 
     return current_timestep.temperature.value
