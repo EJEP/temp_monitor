@@ -57,8 +57,10 @@ def get_owm():
     owm = pyowm.OWM(config.OWM_API_KEY)
 
     # Try the connection up to 10 times
+    # This connection retrying is a bit sketchy. Could do with re-writing
     max_retries = 10
 
+    con_error = None
     for i in range(max_retries):
         try:
             observation = owm.weather_at_coords(*config.COORDS)
@@ -87,11 +89,32 @@ def get_metoffice():
 
     # Get temperature from met office
     conn = datapoint.connection(api_key=config.DATAPOINT_API_KEY)
-    site = conn.get_nearest_site(*config.COORDS)
-    forecast = conn.get_forecast_for_site(site.id, "3hourly")
-    current_timestep = forecast.now()
 
-    return current_timestep.temperature.value
+    # Use similar retry code to above. Again, could do with doing properly.
+    max_retries = 10
+
+    con_error = None
+
+    for i in range(max_retries):
+        try:
+            site = conn.get_nearest_site(*config.COORDS)
+            forecast = conn.get_forecast_for_site(site.id, "3hourly")
+            current_timestep = forecast.now()
+
+            return current_timestep.temperature.value
+
+        except datapoint.exceptions.APIException as con_error:
+            t, v, tb = sys.exc_info()
+            pass
+
+        if con_error:
+            sleep(5)
+        else:
+            break
+    else:
+        print(max_retries)
+        #raise t, v, tb
+        print(sys.exc_info())
 
 def main():
 
