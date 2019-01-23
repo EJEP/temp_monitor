@@ -63,7 +63,7 @@ def get_owm():
     con_error = None
     for i in range(max_retries):
         try:
-            observation = owm.weather_at_coords(*config.COORDS)
+            observation = owm.weather_at_coords(*config.COORDS_OWM)
             con_error = None
             owm_w = observation.get_weather()
 
@@ -97,7 +97,7 @@ def get_metoffice():
 
     for i in range(max_retries):
         try:
-            site = conn.get_nearest_site(*config.COORDS)
+            site = conn.get_nearest_site(*config.COORDS_DATAPOINT)
             forecast = conn.get_forecast_for_site(site.id, "3hourly")
             current_timestep = forecast.now()
 

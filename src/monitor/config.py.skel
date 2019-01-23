@@ -10,5 +10,7 @@ DBNAME = '/path/to/database.db'
 
 # The latitude / longitude decimal coordinates of the location to get weather
 # data for
-COORDS = (51.4778, -0.0014)
+# python-datapoint uses long / lat
+COORDS_DATAPOINT = (51.4778, -0.0014)
+COORDS_OWM = (-0.0014, 51.4778)
 
