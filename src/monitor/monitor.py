@@ -73,7 +73,7 @@ def get_owm():
 
         except pyowm.exceptions.api_call_error.APICallError as con_error:
             t, v, tb = sys.exc_info()
-            print(i)
+            print('owm try ' + str(i) + ' failed')
             sleep(5)
             pass
 
@@ -106,7 +106,7 @@ def get_metoffice():
 
         except datapoint.exceptions.APIException as con_error:
             t, v, tb = sys.exc_info()
-            print(i)
+            print('datapoint try ' + str(i) + ' failed')
             sleep(5)
             pass
 
