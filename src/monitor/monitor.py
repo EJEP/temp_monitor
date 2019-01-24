@@ -73,7 +73,7 @@ def get_owm():
 
         except pyowm.exceptions.api_call_error.APICallError as con_error:
             t, v, tb = sys.exc_info()
-            print(i)
+            print('owm try ' + str(i) + ' failed')
             sleep(5)
             pass
 
@@ -98,6 +98,7 @@ def get_metoffice():
     for i in range(max_retries):
         try:
             site = conn.get_nearest_site(*config.COORDS_DATAPOINT)
+
             forecast = conn.get_forecast_for_site(site.id, "3hourly")
             current_timestep = forecast.now()
 
@@ -105,7 +106,7 @@ def get_metoffice():
 
         except datapoint.exceptions.APIException as con_error:
             t, v, tb = sys.exc_info()
-            print(i)
+            print('datapoint try ' + str(i) + ' failed')
             sleep(5)
             pass
 
