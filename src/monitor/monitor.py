@@ -107,6 +107,8 @@ def get_metoffice():
         except datapoint.exceptions.APIException as con_error:
             t, v, tb = sys.exc_info()
             print('datapoint try ' + str(i) + ' failed')
+            print('Error message:')
+            print(sys.exc_info())
             sleep(5)
             pass
 
