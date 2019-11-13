@@ -1,0 +1,4 @@
+pyowm
+datapoint
+w1thermsensor
+pyserial
