@@ -27,7 +27,7 @@ API keys are required for the [OpenWeatherMap API](https://openweathermap.org/ap
 
 ### Setup ###
 
-The `init-db` command in flask initialises a database in the `instance` directory of the webpage installation. See `schemal.sql` for the creation of the database. The web server will need to be able to read this file.
+The `flask init-db` command provided by the flask app initialises a database in the `instance` directory of the webpage installation. This is described below. See `schemal.sql` for the creation of the database. The web server will need to be able to read this file.
 
 ### Configuration ###
 
@@ -65,15 +65,23 @@ The `secret_key` configuration variable for flask needs to be set in a `config.p
 
 ### Installation ###
 
-The package is distributed as a package installable with pip. When the package us installed, the instance directory is `$INSTALL_PREFIX/var/instance`. This is described in the flask [docs](http://flask.pocoo.org/docs/1.0/config/).
+The package can be installed using pip, the flask docs describe how this can be done. When the package us installed, the instance directory is `$INSTALL_PREFIX/var/instance`. This is described in the flask [docs](http://flask.pocoo.org/docs/1.0/config/).
+
+Once installed, the database can be created. The process is documented in the flask docs. To do this, run
+
+```
+export FLASK_APP=temp_monitor_web
+flask init-db
+```
+
+This creates the database in an instance directory in the virtualenv the app is installed in.
 
 The integration with a server is dependent on the server. Different operating systems may also put server configuration files in different places.
 
-Note that if the code is updated, the web server may need to be updated. This is the case for Apache.
 
 #### Apache with mod_wsgi ####
 
-The python code is written in python 3. `mod_wsgi` cannot run across python versions, so ensure that the version of mod_wsgi which supports python 3 is installed. The `mod_wsgi` [documentation](https://modwsgi.readthedocs.io/en/develop/) contains instructions on how to install and set up `mod_wsgi`. As noted in the [docs](https://modwsgi.readthedocs.io/en/develop/user-guides/virtual-environments.html) it is easier to use `mod_wsgi` with virtual environments if the environment is created using `virtualenv` rather than `venv`. This is because `virtualenv` includes an `activate_this.py` file. The flask [documentation](http://flask.pocoo.org/docs/1.0/deploying/mod_wsgi/#working-with-virtual-environments) for using virtual environments with apache and `mod_wsgi` suggests how to use this in a `.wsgi` file. As far as I know, the path to the `activate_this.py` file must be hard coded. Note that the suggested form of a `.wsgi` file in the [example](https://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html) does not seem to work with this code. The `templog.wsgi` file is as follows:
+The python code is written in python 3. `mod_wsgi` cannot run across python versions, so ensure that the version of mod_wsgi which supports python 3 is installed. The `mod_wsgi` [documentation](https://modwsgi.readthedocs.io/en/develop/) contains instructions on how to install and set up `mod_wsgi`. As noted in the [docs](https://modwsgi.readthedocs.io/en/develop/user-guides/virtual-environments.html) it is easier to use `mod_wsgi` with virtual environments if the environment is created using `virtualenv` rather than `venv`. This is because `virtualenv` includes an `activate_this.py` file. The flask [documentation](http://flask.pocoo.org/docs/1.0/deploying/mod_wsgi/#working-with-virtual-environments) for using virtual environments with apache and `mod_wsgi` suggests how to use this in a `.wsgi` file. The `templog.wsgi` file is as follows:
 
 ```
 python_home = '/path/to/venv'
@@ -88,7 +96,7 @@ application = create_app()
 The `mod_wsgi` documentation describes how to set up a wsgi script with apache. The configuration I have used is below:
 ```
 WSGIDaemonProcess templog threads=2 python-home=/path/to/empty/venv
-WSGIScriptAlias / /path/to/wsgi_dir/templog.wsgi process-group=templog
+WSGIScriptAlias /templog /path/to/wsgi_dir/templog.wsgi process-group=templog
 WSGIProcessGroup templog
 
 <Directory /path/to/wsgi_dir>
