@@ -67,6 +67,15 @@ The `secret_key` configuration variable for flask needs to be set in a `config.p
 
 The package can be installed using pip, the flask docs describe how this can be done. When the package us installed, the instance directory is `$INSTALL_PREFIX/var/instance`. This is described in the flask [docs](http://flask.pocoo.org/docs/1.0/config/).
 
+Once installed, the database can be created. The process is documented in the flask docs. To do this, run
+
+```
+export FLASK_APP=temp_monitor_web
+flask init-db
+```
+
+This creates the database in an instance directory in the virtualenv the app is installed in.
+
 The integration with a server is dependent on the server. Different operating systems may also put server configuration files in different places.
 
 
