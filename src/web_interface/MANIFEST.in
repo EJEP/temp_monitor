@@ -1,4 +1,4 @@
-include webpage/schema.sql
-graft webpage/static
-graft webpage/templates
+include temp_monitor_web/schema.sql
+graft temp_monitor_web/static
+graft temp_monitor_web/templates
 global-exclude *.pyc
