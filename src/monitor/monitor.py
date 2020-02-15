@@ -97,7 +97,7 @@ def get_metoffice():
 
     for i in range(max_retries):
         try:
-            site = conn.get_nearest_site(*config.COORDS_DATAPOINT)
+            site = conn.get_nearest_forecast_site(*config.COORDS_DATAPOINT)
 
             forecast = conn.get_forecast_for_site(site.id, "3hourly")
             current_timestep = forecast.now()
