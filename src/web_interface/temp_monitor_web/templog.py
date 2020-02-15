@@ -10,7 +10,7 @@ from bokeh.models import HoverTool, Legend
 import json
 from flask import Flask, render_template, g, Blueprint, current_app, request
 
-from webpage.db import get_db
+from temp_monitor_web.db import get_db
 
 from . import TimeForm
 
