@@ -25,7 +25,7 @@ def get_data(table, interval):
     if interval == 'all':
         curs.execute("SELECT * FROM " + table)
     else:
-        curs.execute("SELECT * FROM " + table + " WHERE time>datetime('now','-%s hours')" % interval)
+        curs.execute("SELECT * FROM " + table + " WHERE measurement_time>datetime('now','-%s hours')" % interval)
 
     rows=curs.fetchall()
 
