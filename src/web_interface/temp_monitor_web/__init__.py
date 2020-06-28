@@ -10,7 +10,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         # I think it is safe to leave this uncommented as the SECRET_KEY value
         # should be updated by the config file.
-        #SECRET_KEY='dev',
+        SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'templog.sqlite'),
     )
 

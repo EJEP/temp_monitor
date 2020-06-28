@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import SelectField
+from wtforms.fields.html5 import DateTimeField
 
 class TimeForm(FlaskForm):
     """Class to manage the generation of the time selection form"""
@@ -17,3 +18,8 @@ class TimeForm(FlaskForm):
                                       ('72', 'The last 72 hours'),
                                       ('168', 'The last 168 hours'),
                                       ('all', 'All records')])
+class TimeFormRange(FlaskForm):
+    """Class to manage time range input"""
+
+    datetime_1 = DateTimeField(u'Time 1')
+    datetime_2 = DateTimeField(u'Time 2')
