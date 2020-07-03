@@ -114,8 +114,10 @@ def show_range_plot():
 
     time_chooser = TimeForm.TimeFormRange(request.form)
     # %Y-%m-%d %H:%M:%S
-    datetime_1 = '2020-06-01 00:00:00'
-    datetime_2 = '2020-06-02 00:00:00'
+    now = datetime.datetime.now()
+    datetime_1 = (now - datetime.timedelta(hours=72)).strftime('%Y-%m-%d %H:%M:%S')
+    datetime_2 = now.strftime('%Y-%m-%d %H:%M:%S')
+
 
     if time_chooser.validate_on_submit():
         # if time_chooser.the_time.data != 'all':
