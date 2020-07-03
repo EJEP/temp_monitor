@@ -16,24 +16,6 @@ from . import TimeForm
 
 bp = Blueprint('plots', __name__)
 
-def get_data(table, interval):
-    """Return all records from the database after the interval"""
-
-    conn = get_db()
-    curs = conn.cursor()
-
-    if interval == 'all':
-        curs.execute("SELECT * FROM " + table)
-    else:
-        curs.execute("SELECT * FROM " + table + " WHERE measurement_time>datetime('now','-%s hours')" % interval)
-
-    rows=curs.fetchall()
-
-    curs.close()
-
-    return rows
-
-
 def get_data_range(table, dt1, dt2):
     """Return all records from the database after the interval"""
 
@@ -48,58 +30,6 @@ def get_data_range(table, dt1, dt2):
     curs.close()
 
     return rows
-
-def make_plot(time_range):
-    """Plot the data in Bokeh"""
-
-    # get sensor data from the database
-    sensor_records=get_data('sensor_temps', time_range)
-
-    # get weather data
-    owm_records=get_data('owm_temps', time_range)
-
-    # get metoffice data
-    met_records=get_data('metoffice_temps', time_range)
-
-    p = figure(plot_width=800, plot_height=500, x_axis_type="datetime",
-               toolbar_location="above")
-
-    p.add_tools(HoverTool(
-        tooltips = [
-            ('date', '@x{%Y-%m-%d %H:%M}'),
-            ('temp', '$y'),
-        ],
-        formatters = {
-            'x': 'datetime',
-        },
-
-       ))
-
-    sensl = p.line([s[0] for s in sensor_records],
-                   [s[1] for s in sensor_records],
-                   color='#006ba4', line_width=2)
-
-    owml = p.line([o[0] for o in owm_records],
-                  [o[1] for o in owm_records],
-                  color='#ff800e', line_width=2)
-
-    metl = p.line([m[0] for m in met_records],
-                  [m[1] for m in met_records],
-                  color='#ababab', line_width=2)
-
-    # The legend will be outside the plot, and so must be defined directly
-    leg = Legend(items=[
-        ("Sensor", [sensl]),
-        ("OWM", [owml]),
-        ("MetOffice", [metl]),
-    ], location=(5, 360))
-
-    p.add_layout(leg, 'right')
-
-    # Jsonify the plot to put in html
-    plot_script, plot_div = components(p)
-
-    return plot_script, plot_div
 
 def make_range_plot(dt1, dt2):
     """Plot the data in Bokeh"""
@@ -159,7 +89,7 @@ def show_plot():
     time_chooser = TimeForm.TimeForm(request.form)
 
     # By default show the last 72 hours of data
-    interval = '72'
+    interval = 72
 
     if time_chooser.validate_on_submit():
         #if time_chooser.the_time.data != 'all':
@@ -167,7 +97,12 @@ def show_plot():
         current_app.logger.info('interval is %s', interval)
     current_app.logger.info('interval is %s', interval)
 
-    plot_script, plot_div = make_plot(interval)
+    # Get interval
+    now = datetime.datetime.now()
+    datetime_1 = (now - datetime.timedelta(hours=interval)).strftime('%Y-%m-%d %H:%M:%S')
+    datetime_2 = now.strftime('%Y-%m-%d %H:%M:%S')
+
+    plot_script, plot_div = make_range_plot(datetime_1, datetime_2)
     # CDN.render() has all of the information to get the javascript libraries
     # for Bokeh to work, loaded from a cdn somewhere.
     return render_template('temp_graph.html', plot_div=plot_div,
