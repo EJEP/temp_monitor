@@ -33,4 +33,7 @@ def create_app(test_config=None):
     from . import templog
     app.register_blueprint(templog.bp)
 
+    from . import overview
+    app.register_blueprint(overview.bp)
+
     return app

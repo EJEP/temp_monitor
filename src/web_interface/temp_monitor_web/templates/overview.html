@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Overview</h1>
+
+{% endblock %}
+
+
+{% block content %}
+<h3> Max temp </h3>
+<ul>
+    <li> {{sensor_data['source']}}: {{sensor_data['maxt'][1]}} at {{sensor_data['maxt'][0].strftime('%Y-%m-%d %H:%M:%S')}}</li>
+    <li> {{owm_data['source']}}: {{owm_data['maxt'][1]}} at {{owm_data['maxt'][0].strftime('%Y-%m-%d %H:%M:%S')}}</li>
+    <li> {{metoffice_data['source']}}: {{metoffice_data['maxt'][1]}} at {{metoffice_data['maxt'][0].strftime('%Y-%m-%d %H:%M:%S')}}</li>
+</ul>
+
+
+<h3> Min temp </h3>
+<ul>
+    <li> {{sensor_data['source']}}: {{sensor_data['mint'][1]}} at {{sensor_data['mint'][0].strftime('%Y-%m-%d %H:%M:%S')}}</li>
+    <li> {{owm_data['source']}}: {{owm_data['mint'][1]}} at {{owm_data['mint'][0].strftime('%Y-%m-%d %H:%M:%S')}}</li>
+    <li> {{metoffice_data['source']}}: {{metoffice_data['mint'][1]}} at {{metoffice_data['mint'][0].strftime('%Y-%m-%d %H:%M:%S')}}</li>
+</ul>
+
+<h3> Graphs </h3>
+
+<p> <a href="{{ url_for('plots.show_plot') }} "> Plot </a> </p>
+<p> <a href="{{ url_for('plots.show_range_plot') }} "> Range Plot </a> </p>
+
+{% endblock %}
