@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Temperature graph{% endblock %}</h1>
+
+{{ resources|safe }}
+{% endblock %}
+
+{% block content %}
+
+<!-- Somewhere for the form to live -->
+<h2> Pick a time range to show </h2>
+
+<form action="", method="post">
+    {{ form.hidden_tag() }}
+
+    {{ form.datetime_1 }}
+    {{ form.datetime_2 }}
+
+    <input type="submit" value="Go">
+</form>
+
+{{ plot_div|safe }}
+{{ plot_script|safe }}
+{% endblock %}
