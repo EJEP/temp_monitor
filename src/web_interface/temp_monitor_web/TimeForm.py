@@ -11,13 +11,14 @@ class TimeForm(FlaskForm):
     # WTForms that the data it gets are ints (or whatever), but for my purposes
     # strings are more useful
     the_time = SelectField(u'Time range',
-                           choices = [('6', 'The last 6 hours'),
-                                      ('12', 'The last 12 hours'),
-                                      ('24', 'The last 24 hours'),
-                                      ('48', 'The last 48 hours'),
-                                      ('72', 'The last 72 hours'),
-                                      ('168', 'The last 168 hours'),
-                                      ('all', 'All records')])
+                           choices = [(6, 'The last 6 hours'),
+                                      (12, 'The last 12 hours'),
+                                      (24, 'The last 24 hours'),
+                                      (48, 'The last 48 hours'),
+                                      (72, 'The last 72 hours'),
+                                      (168, 'The last 168 hours')
+                                      ],
+                           coerce=int)
 class TimeFormRange(FlaskForm):
     """Class to manage time range input"""
 
